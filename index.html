@@ -1,123 +1,183 @@
-<?php 
-
-$username = $password = $confirm_password = "";
-$username_error = $password_error = $confirm_password_error = "";
-require_once"config.php";
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    //Initialising Username
-   if(empty(trim($_POST["username"]))){
-    $username_error = "This Field Is Required!";
-   }else{
-    $sql = "select id from users where username = ?";
-    if($stmt = mysqli_prepare($link, $sql)){
-        mysqli_stmt_bind_param($stmt,"s", $param_username);
-        $param_username = trim($_POST["username"]);
-        if(mysqli_stmt_execute($stmt)){
-            mysqli_stmt_store_result($stmt);
-            if(mysqli_stmt_num_rows($stmt) == 1){
-                $username_error = "This name is already taken!";
-            }else{
-                $username = trim($_POST["username"]);
-            }
-        }else{
-            echo "Oops! Something went wrong, please try again!";
-        }
-        mysqli_stmt_close($stmt);
-    }
-   }
-    //Initialising password
-  if(empty(trim($_POST["password"]))){
-    $password_error = "This Field Is Required!";
-  }elseif (strlen(trim($_POST["password"])) < 8) {
-    $password_error = "Password Too Short!";
-  }else{
-    $password = trim($_POST["password"]);
-  }
-  if(empty(trim($_POST["confirm_password"]))){
-    $confirm_password_error = "This Field Is Required!";
-  }else{
-    $confirm_password = trim($_POST["confirm_password"]);
-    if(empty($password_error) && ($password != $confirm_password)){
-        $confirm_password_error = "Password Did Not Match!";
-    }
-  }
-  if(empty($username_error) && empty($password_error) && empty($confirm_password_error)){
-    $sql = "insert into users(username, password) values(?, ?)";
-    if($stmt = mysqli_prepare($link, $sql)){
-        mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
-        $param_username = $username;
-        $param_password = password_hash($password, PASSWORD_DEFAULT);
-        if(mysqli_stmt_execute($stmt)){
-            header("location: login.php");
-        }else{
-            echo "Oops! Something went wrong, try again later!";
-        }
-        mysqli_stmt_close($stmt);
-    }
-  }
-  mysqli_close($link);
-
-}
-
-
-
-?>
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIGN UP</title>
-    <link rel="stylesheet" href="css/bootstrap.css">
+    <title>Agriculture Website</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        body{
-            font-weight: 14px;
-
-        }
-        .container{
-            padding: 20px;
-            margin-top: 50px;
-            width: 360px;
-        }
-        .container input{
-            width: 300px;
-
+        .myslides{
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Sign Up</h2>
-        <p>Please Fill Up the form below to create your new account</p>
-        <form action="#" method="POST">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" name="username" class="form-control <?php echo(!empty($username_error))? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
-                <span class="invalid-feedback"><?php echo $username_error; ?></span>
+    <section class="header">
+        <nav style="background: teal;">
+            <a href="index.html" style="text-decoration: none;"><span style="color: orange; font-size: 30px; font-weight: 700; text-decoration: none; width: 150px;">KEVIN'S FARM</span></a>
+            <div class="nav_links" id="navLinks">
+                <img src="images/x.png" onclick="hideMenu()" style="width: 30px;" alt="">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" name="password" class="form-control <?php echo(!empty($password_error))? 'is-invalid' : ''; ?>" value="<?php echo $password; ?>">
-                <span class="invalid-feedback"><?php echo $password_error; ?></span>
+            <img src="images/mk.png" onclick="showMenu()" style="width: 30px;" alt="">
+        </nav>
+        <div class="text">
+            <div id="typing">Finest <span>Farm In Uganda</span></div>
+            <div id="crow">|</div>
+        </div>
+        <div class="text-box">
+            
+            <p>Making farm is now one of the easiest thing in the world. You just need to learn how to manage it.<br>
+                All You Need Is A few Skills in how to balance the and keep your records.
+            </p>
+            <a href="contact.html" class="hero-btn">Visit Us To Know More</a>
+        </div>
+
+    </section>
+
+    <section class="services">
+        <h1>Services On Our Farm</h1>
+        <p>When it means farming, we are more obsessed with that area.</p>
+        <div class="row">
+            <div class="course-col">
+                <h3>Rabbit Keeping</h3>
+                <p>
+                  Rabbit farming in Uganda is a profitable
+                  business to everyone who does extensive 
+                  research about rabbits.
+                  Rabbits can be reared either on 
+                  a small scale or a large scale
+                  depending on the startup capital that
+                  you have.
+                </p>
             </div>
-            <div class="form-group">
-                <label for="confirm_password">confirm_password</label>
-                <input type="password" name="confirm_password" class="form-control <?php echo(!empty($confirm_password_error))? 'is-invalid' : ''; ?>" value="<?php echo $confirm_password; ?>">
-                <span class="invalid-feedback"><?php echo $confirm_password_error; ?></span>
+            <div class="course-col">
+                <h3>Poultry</h3>
+                <p>
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                     Nisi commodi perferendis sapiente praesentium earum iste magnam numquam fugiat,
+                     laboriosam, maxime esse expedita quae. Voluptatibus ipsam vitae, perspiciatis 
+                     placeat id cupiditate.
+                </p>
             </div>
-            <div class="form-group" style="margin-top: 7px">
-              
-                <input type="submit" class="btn btn-primary" value="Sign Up">
-               
+            <div class="course-col">
+                <h3>Dairy Production</h3>
+                <p>
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                     Nisi commodi perferendis sapiente praesentium earum iste magnam numquam fugiat,
+                     laboriosam, maxime esse expedita quae. Voluptatibus ipsam vitae, perspiciatis 
+                     placeat id cupiditate.
+                </p>
             </div>
-        </form>
-        <P>Already have an account? <a href="login.php">Login here</a></P>
-    </div>
-    
+        </div>
+
+    </section>
+    <section class="farm">
+        <h1>Our Global Farm</h1>
+        <p> Discover our Unique Farms In Uganda</p>
+        <div class="row">
+            <div class="campus-col">
+                <img  src="images/f9.jpeg" alt="">
+                <div class="layer">
+                    <h3>KAMPALA</h3>
+                </div>
+            </div>
+            <div class="campus-col">
+                <img src="images/f15.jpeg" alt="">
+                <div class="layer">
+                    <h3>MASAKA</h3>
+                </div>
+            </div>
+            <div class="campus-col">
+                <img src="images/f17.jpeg" alt="">
+                <div class="layer">
+                    <h3>JINJA</h3>
+                </div>
+            </div>
+
+        </div>
+     
+
+    </section>
+
+    <section class="facilities">
+        <h1>Our Activities</h1>
+        <p> laboriosam, maxime esse expedita quae. Voluptatibus ipsam vitae, perspiciatis </p>
+        <div class="row">
+            <div class="facilities-col">
+                <img src="images/f2.jpeg" alt="">
+                <h3>World Class Ranch</h3>
+                <p> Nisi commodi perferendis sapiente praesentium earum iste magnam numquam fugiat,
+                    laboriosam, maxime esse expedita quae. Voluptatibus ipsam vitae, perspiciatis </p>
+            </div>
+            <div class="facilities-col">
+                <img src="images/f10.jpeg" alt="">
+                <h3>Dairy</h3>
+                <p> Nisi commodi perferendis sapiente praesentium earum iste magnam numquam fugiat,
+                    laboriosam, maxime esse expedita quae. Voluptatibus ipsam vitae, perspiciatis </p>
+            </div>
+            <div class="facilities-col">
+                <img src="images/f11.jpeg" alt="">
+                <h3>Poultry</h3>
+                <p> Nisi commodi perferendis sapiente praesentium earum iste magnam numquam fugiat,
+                    laboriosam, maxime esse expedita quae. Voluptatibus ipsam vitae, perspiciatis </p>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="testimonials">
+        <h1>What Our Customers Say</h1>
+        <p> These are some of our customers and take time to read what they say about our service. </p>
+        <div class="row">
+            <div class="testimonial-col">
+                <img src="images/f18.jpg" alt="">
+                <div>
+                    <p> Nisi commodi perferendis sapiente praesentium earum iste magnam numquam fugiat,
+                        laboriosam, maxime esse expedita quae. Voluptatibus ipsam vitae, perspiciatis </p>
+                        <h3>Maureen</h3>
+                </div>
+            </div>
+            <div class="testimonial-col">
+                <img src="images/f19.jpg" alt="">
+                <div>
+                    <p>I can say that this guy kevin has provided us with the best farm products
+                        all i say that he should keep up the good service.
+                    </p>
+                        <h3>Michelle Namubiru</h3>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+    <section class="cta">
+        <h1>Engage In Our Agriculture Lessons<br> Anywhere From Uganda.</h1>
+        <a href="contact.html" class="hero-btn">CONTACT US</a>
+
+    </section>
+
+
+    <section class="footer">
+        <h4>About Us</h4>
+        <p> We are Proud to be your number one in terms of all your agriculture needs<br> 
+        We Credited as the best award winners in Africa Farming Competitions.</p>
+            <p>Phone: 0751994117</p><p>Email: kevinfarm3@yahoo.com</p>
+
+    </section>
+    <script>
+        var navLinks = document.getElementById("navLinks");
+        function showMenu() {
+            navLinks.style.right = "0";
+        }
+        function hideMenu() {
+            navLinks.style.right = "-200px";
+        }
+    </script>
 </body>
 </html>

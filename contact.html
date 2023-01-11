@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agriculture Website</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section class="nam">
+        <nav style="background: teal;">
+            <a href="index.html" style="text-decoration: none;"><span style="color: orange; font-size: 30px; font-weight: 700; text-decoration: none; width: 150px;">KEVIN'S FARM</span></a>
+            <div class="nav_links" id="navLinks">
+                <img src="images/x.png" onclick="hideMenu()" style="width: 30px;" alt="">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <img src="images/mk.png" onclick="showMenu()" style="width: 30px;" alt="">
+        </nav>
+    </section>
+    <section class="header1">
+    
+            <form>
+                <div class="row1">
+                    <div class="input-group">
+                        <input type="text" id="name" required>
+                        <label for="name">Your Name</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="number" required>
+                        <label for="number">Your Phone No.</label>
+                    </div>
+                </div>
+               
+                <div class="input-group">
+                    <input type="email" id="email" required>
+                    <label for="email">Email Id</label>
+                </div>
+                <div class="input-group">
+                    <textarea  id="message" rows="8" required></textarea>
+                    <label for="message">Message...</label>
+                </div>
+                <button type="submit" class="hero-btn">Send Now</button>
+             
+            </form>
+           
+        </div>
+
+
+    </section>
+
+   
+
+    <section class="footer">
+        <h4>About Us</h4>
+        <p> We are Proud to be your number one in terms of all your agriculture needs<br> 
+        We Credited as the best award winners in Africa Farming Competitions.</p>
+            <p>Phone: 0751994117</p><p>Email: kevinfarm3@yahoo.com</p>
+
+    </section>
+
+
+
+
+
+    <script>
+        var navLinks = document.getElementById("navLinks");
+        function showMenu() {
+            navLinks.style.right = "0";
+        }
+        function hideMenu() {
+            navLinks.style.right = "-200px";
+        }
+    </script>
+</body>
+</html>
